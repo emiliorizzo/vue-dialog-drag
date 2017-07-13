@@ -1,0 +1,30 @@
+{
+  "name": "vue-dialog-drag",
+  "version": "0.0.7",
+  "description": "A Vue Draggable Dialog Component",
+  "main": "dist/vue-dialog-drag.js",
+  "scripts": {
+    "build": "vue build src/vue-dialog-drag.vue --prod --lib",
+    "example": "vue build src/example/example.vue --lib --prod --dist example && cp src/example/index.html ./example",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --ext .js,.vue src",
+    "dev": "vue build src/example/example.vue"
+  },
+  "author": "emi",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-friendly-formatter": "^2.0.7",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "pug": "^2.0.0-rc.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
+    "vue-cli": "^2.8.2",
+    "webpack": "^3.2.0"
+  }
+}
