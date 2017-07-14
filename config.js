@@ -14,6 +14,7 @@ module.exports = {
         repo: JSON.stringify(pkg.repository.url)
       }
     }))
+    webpackConfig.output.publicPath = ""
     return webpackConfig
   }
 }
