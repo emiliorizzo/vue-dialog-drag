@@ -1,10 +1,10 @@
 {
   "name": "vue-dialog-drag",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A Vue Draggable Dialog Component",
   "main": "dist/vue-dialog-drag.js",
   "scripts": {
-    "build": "vue build src/vue-dialog-drag.vue --prod --lib",
+    "build": "npm run lint && ./build.sh",
     "example": "vue build src/example/example.vue --dist example --prod -c config.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --ext .js,.vue src",

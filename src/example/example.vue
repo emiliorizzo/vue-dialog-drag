@@ -1,23 +1,16 @@
 <template lang="pug">
   #app      
     .menu-container
-
       //- Droparea
-      .droparea(ref='droparea' 
-        @drop.stop='drop' 
-        @dragover.prevent='dragEnter' 
-        @dragleave='dragLeave' 
-        @dragend='dragEnd')
-        .over(v-if='isOver')
-          .icon(v-html='icons.download')
-        
-        //- Dropped dialogs
-        small(v-if='!isOver && !droppeds.length') Drop dialog here 
-        
-        //- Dialogs
+      drop-area(@drop='drop')
+        .icon(v-html='icons.download' slot='over')
+        small(v-if='!droppeds.length') Drop dialog here 
+        //- Dialogs container
         .dropped(v-for='dialog in droppeds' @click='unDrop(dialog.id)')
           .icon(v-html='icons.dialog')
           .name {{dialog.name}}
+        
+      //- Restore dialogs message
       small(v-if='droppeds.length') 
         em Click an icon to restore dialog
       
@@ -35,16 +28,16 @@
     //-Links
     ul.links
         li
-          a(href='asas')
+          a(:href='app.repo')
             .icon(v-html='icons.gitHub')
-            span.link GitHub
+        
     
     //- Console
     .console(v-if='selected')
       p Dialog Selected
       small {{selected}}
 
-    
+    //- DIALOGS
     .dialogs
       dialog-drag(v-for='dialog,key in dialogs' 
         :class='dialog.style.name'
@@ -71,6 +64,7 @@
 
 <script>
 import DialogDrag from '../vue-dialog-drag.vue'
+import DropArea from '../drop-area.vue'
 import rndText from './randomText.js'
 import ghIcon from '!!raw-loader!../assets/github.svg'
 import browserIcon from '!!raw-loader!../assets/browser.svg'
@@ -80,7 +74,8 @@ import downloadIcon from '!!raw-loader!../assets/download.svg'
 export default {
   name: 'example',
   components: {
-    DialogDrag
+    DialogDrag,
+    DropArea
   },
   data () {
     return {
@@ -111,23 +106,12 @@ export default {
     }
   },
   methods: {
-    drop (event) {
-      this.isOver = false
-      let id = event.dataTransfer.getData('text')
+    drop (id) {
       let index = this.findDialog(id)
       if (index !== null) {
         this.droppeds.push(this.dialogs[index])
         this.dialogs.splice(index, 1)
       }
-    },
-    dragEnter (event) {
-      this.isOver = true
-    },
-    dragLeave (event) {
-      this.isOver = false
-    },
-    dragEnd (event) {
-      event.target.classList.remove('over')
     },
     unDrop (id) {
       let index = this.findDialog(id, this.droppeds)
@@ -177,26 +161,10 @@ export default {
 </script>
 <style lang="stylus">
 @import '../vars.styl'
+@import './html.styl'
   body 
     font-family: 'Asap', sans-serif
-    background-color: #e6ede9
-    font-size: 16px
-  h1
-    font-family: 'Belgrano', serif
-    text-shadow: $sh, $sh
-    font-size: 1.5em
-    text-shadow: $sh
-  label
-    font-size: .8em
-    display:block
-    margin-bottom: .5em
-  a
-   color: $color
-   &:hover
-    color:$color2
-   &:visited
-    color: $color
-     
+
   .menu-container
     position:fixed
     bottom: 0
@@ -214,6 +182,22 @@ export default {
     color: white
     box-shadow: $sh
     margin-top: 1em
+    .title
+      border: 1.5px $lightness
+      border-style: dotted none
+      padding: .5em 0 
+      
+      h1, h2
+        margin:0 0 .5em 0
+      h1
+        font-size: 1.7em
+        letter-spacing: 0.0325em
+        font-family: 'Belgrano', serif
+        text-shadow: $sh, $sh
+      h2
+        font-size: 0.8em
+        font-style: italic
+       letter-spacing: 0.0625em 
   
   .links
     margin: 1em 5em 0 0
@@ -245,76 +229,9 @@ export default {
     bottom: 0
     color: $dark
 
-  button, select, option
-    border: none
-    box-shadow: none 
-    background-color: white
-    outline: 0
-    &:focus
-      outline: 0
-  
-  select
-    -webkit-appearance: none
-    -moz-appearance: none
-    appereance: none
-    box-sizing: border-box
-    line-height: 1.5em
-    padding: 0.5em 3.5em 0.5em 1em
-    color: $color
-    background-image:
-      linear-gradient(45deg, transparent 50%, $color 50%),
-      linear-gradient(135deg, $color 50%, transparent 50%),
-      linear-gradient(to right, #ccc, #ccc)
-    background-position:
-      calc(100% - 20px) calc(1em + 2px),
-      calc(100% - 15px) calc(1em + 2px),
-      calc(100% - 2.5em) 0.5em
-    background-size:
-      5px 5px,
-      5px 5px,
-      1px 1.5em;
-    background-repeat: no-repeat
-  
-  button.btn 
-    padding: .5em 2em
-    font-size: 1em
-  
-  button.btn, select
-    border: lightness($color,35%) solid 1px
-    box-shadow: $sh
-    border-radius: 0.25em
-    color: $color
-    font-weight:bold
-    background-color: white
-  
   #app
     text-align:center
     user-select: none
-
-  .droparea, .over
-    display: flex
-    justify-content: center
-    align-items: center
-    flex-wrap: wrap
-  
-  .droparea
-    position: relative
-    border: $gray dotted 2px
-    min-height: 10em
-    text-align: center
-    margin-bottom: .5em
-    small
-      color: $gray
-
-  .over
-    background-color: alpha($color2,.5)
-    width: 100%
-    height: 100%
-    position:absolute
-    top: 0
-    left: 0
-    z-index: 105
-    pointer-events: none
 
   .dropped
     border: $color dashed 1px
@@ -335,67 +252,7 @@ export default {
       fill: $color
       background: transparent
 
-// general dialog style  
-  .dialog-drag
-    min-width: 10em
-    background-color: #e6eee9
-    box-shadow: 2px 2px 1px rgba(0,0,0,.5)
-
-// Dialog style 1
-
-.dialog-1.dialog-drag
-  border: $color dashed 2px
-  background-color: white
-  .dialog-header
-    background-color: transparent
-    .buttons button
-      color: $color
-    .title
-      display:none
-
-// style 1 drag disabled
-.dialog-drag.dialog-1.fixed
-  border: $color solid 2px
-
-// Dialog style 2
-
-.dialog-2.dialog-drag
-  border-color: $color
-  
-  .dialog-header
-    background-color: $color
-    color: white 
-    .buttons button
-      color: white
-
-// Dialog style 3
-
-.dialog-3.dialog-drag
-  border: none
-  background-color: lightness($color2,97%)
-  animation-name: dialog-3-anim
-  .dialog-header
-    background-color: $color2
-    color: white 
-    .buttons button
-      color:  lightness($color2,90%)
-      text-shadow: none
-      &:hover
-        color: white
-        text-shadow: $sh
-
-// style 3 drag disabled
-.dialog-drag.dialog-3.fixed
-  margin: 2em
-  outline: $color 2px dashed
-  outline-offset: .25em
-
-@keyframes dialog-3-anim
-  0%
-    opacity: 0
-    transform: scaleX(.1) scaleX(3)
-  100%
-    opacity: 1
+@import './dialog-styles.styl'
 
 </style>
 

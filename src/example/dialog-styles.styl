@@ -1,0 +1,61 @@
+// general dialog style  
+  .dialog-drag
+    min-width: 10em
+    background-color: #e6eee9
+    box-shadow: 2px 2px 1px rgba(0,0,0,.5)
+
+// Dialog style 1
+
+.dialog-1.dialog-drag
+  border: $color dashed 2px
+  background-color: white
+  .dialog-header
+    background-color: transparent
+    .buttons button
+      color: $color
+    .title
+      display:none
+
+// style 1 drag disabled
+.dialog-drag.dialog-1.fixed
+  border: $color solid 2px
+
+// Dialog style 2
+
+.dialog-2.dialog-drag
+  border-color: $color
+  
+  .dialog-header
+    background-color: $color
+    color: white 
+    .buttons button
+      color: white
+
+// Dialog style 3
+
+.dialog-3.dialog-drag
+  border: none
+  background-color: lightness($color2,97%)
+  animation-name: dialog-3-anim
+  .dialog-header
+    background-color: $color2
+    color: white 
+    .buttons button
+      color:  lightness($color2,90%)
+      text-shadow: none
+      &:hover
+        color: white
+        text-shadow: $sh
+
+// style 3 drag disabled
+.dialog-drag.dialog-3.fixed
+  margin: 2em
+  outline: $color 2px dashed
+  outline-offset: .25em
+
+@keyframes dialog-3-anim
+  0%
+    opacity: 0
+    transform: scaleX(.1) scaleX(3)
+  100%
+    opacity: 1
