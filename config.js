@@ -1,7 +1,19 @@
 var path = require('path')
+var pkg = require("./package.json")
 module.exports = {
   html: {
-    title: 'TEST',
-    template: path.join(__dirname, './src/example/template.html')
+    title: pkg.name,
+    template: path.join(__dirname, './src/example/template.html'),
+  },
+  webpack (webpackConfig, options, webpack) {
+    webpackConfig.plugins.push(new webpack.DefinePlugin({
+      APP: {
+        name: JSON.stringify(pkg.name),
+        des: JSON.stringify(pkg.description),
+        version: JSON.stringify(pkg.version),
+        repo: JSON.stringify(pkg.repository.url)
+      }
+    }))
+    return webpackConfig
   }
 }

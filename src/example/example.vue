@@ -24,7 +24,8 @@
       //- Menu
       .menu
         .title
-          h1 Vue Draggable Dialog
+          h1 {{ app.name }}
+          h2.subtitle {{ app.des }}
         button.btn(@click='newDialog(style)') new dialog
         .set
           label Dialog Style:  
@@ -93,14 +94,14 @@ export default {
       style: null,
       selected: null,
       dialogWidth: 400,
-      isOver: false,
       droppeds: [],
       icons: {
         gitHub: ghIcon,
         browser: browserIcon,
         download: downloadIcon,
         dialog: dialogIcon
-      }
+      },
+      app: APP
     }
   },
   created () {
