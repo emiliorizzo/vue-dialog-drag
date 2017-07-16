@@ -1,24 +1,28 @@
 <template lang="pug">
   .dialog-drag(
+    :id='id'
     :draggable='drag'
     :class='(!drag) ? "fixed":""'
     :style='dialogStyle'
     @dragstart.stop='dragStart'
-    @touchstart='touchStart'
-    @touchmove.prevent='touchMove'
+    @touchstart.prevent='touchStart'
+    @touchmove.stop='touchMove'
     @touchend.stop='touchEnd'
     @dragend='dragEnd'
-    @dblclick='setDrag'
     ) 
-    .dialog-header
-      .dialog-title
+    .dialog-header(@dragstart.stop='')
+      .title
         //- Title slot
         slot(name='title')
           //- optional title if not slot title
           span(v-if='title') {{title}}
-      button.close(@click='close' @touchstart='close')
+          span(v-else) &nbsp
+      .buttons
+        //- Pin dialog to copy text
+        button.pin(v-if='buttonPin' @click='setDrag' @touchstart='setDrag' :title='(drag) ? "Disable drag" : "Enable drag"')
+        button.close(v-if='buttonClose' @click='close' @touchstart='close')
     //- default slot
-    .dialog-body
+    .dialog-body(@dragstart.stop='')
       slot
         .blank-body
 
@@ -26,7 +30,7 @@
 <script>
 export default {
   name: 'dialog-drag',
-  props: ['id', 'title', 'options', 'events'],
+  props: ['id', 'title', 'options'],
   data () {
     return {
       width: 0,
@@ -37,25 +41,16 @@ export default {
       },
       left: 0,
       top: 0,
+      buttonClose: true,
+      buttonPin: true,
       dragEnabled: true,
       drag: true,
       touch: null,
-      overEvent: null,
-      dialog: {
-        left: 0,
-        top: 0
-      }
+      overEvent: null
     }
   },
   created () {
-    if (this.options) {
-      let ops = ['left', 'top', 'width', 'height'] // available options
-      for (let op of ops) {
-        if (this.options[op]) {
-          this.$set(this, op, this.options[op])
-        }
-      }
-    }
+    this.setOptions(this.options)
   },
   mounted () {
     this.width = this.$el.clientWidth
@@ -65,6 +60,11 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('dragover', this.dragOver)
+  },
+  watch: {
+    options (newValue) {
+      this.setOptions(newValue)
+    }
   },
   computed: {
     dialogStyle () {
@@ -89,8 +89,7 @@ export default {
     },
     dragStart (event) {
       if (this.drag && this.dragEnabled) {
-        // start drag in firefox
-        event.dataTransfer.setData('text/plain', null)
+        event.dataTransfer.setData('text', event.target.id)
         this.startMove(event)
       }
     },
@@ -99,6 +98,11 @@ export default {
       this.emit('dragEnd')
     },
     touchStart (event) {
+      // let devent = new DragEvent('dragstart', event)
+      // this.$el.dispatchEvent(devent)
+      // let evt = document.createEvent('MouseEvents');
+      // evt.initMouseEvent('dragstart', event)
+      // this.$el.dispatchEvent(evt)
       this.startMove(event.targetTouches[0])
     },
     touchMove (event) {
@@ -108,18 +112,14 @@ export default {
       this.emit('dragEnd')
     },
     emit (eventName, data) {
-      // events prop, conditional emition
-      let emitEvent = (undefined === this.events || this.events[eventName] === undefined) ? true : this.events[eventName]
-      if (emitEvent) {
-        if (!data) data = { id: this.id, left: this.left, top: this.top }
-        this.$emit(eventName, data)
-      }
+      if (!data) data = { id: this.id, left: this.left, top: this.top }
+      this.$emit(eventName, data)
     },
     move (event) {
       if (this.drag && this.dragEnabled) {
         if (event.clientX === 0) event = this.overEvent // for firefox
-        this.left = event.clientX + this.offset.x
-        this.top = event.clientY + this.offset.y
+        this.left = parseInt(event.clientX + this.offset.x)
+        this.top = parseInt(event.clientY + this.offset.y)
         this.emit('move')
       }
     },
@@ -128,13 +128,22 @@ export default {
       let y = this.top - event.clientY
       this.offset = { x, y }
       this.emit('dragStart')
+    },
+    setOptions (options) {
+      if (options) {
+        let ops = ['left', 'top', 'width', 'height', 'buttonPin', 'buttonClose'] // available options
+        for (let op of ops) {
+          if (this.options.hasOwnProperty(op)) {
+            this.$set(this, op, this.options[op])
+          }
+        }
+      }
     }
   }
 }
 </script>
 <style lang="stylus">
-$color = #1aad8d
-$color2 = #e59e0d
+@import 'vars.styl'
 
 .dialog-drag
   z-index: 101
@@ -142,6 +151,8 @@ $color2 = #e59e0d
   position: absolute
   border: $color solid 2px
   background-color: white
+  box-shadow: $sh
+  height: auto
   animation-duration: 0.2s
   animation-name: dialog-anim
   animation-timing-function: ease-in
@@ -155,26 +166,40 @@ $color2 = #e59e0d
     background-color: $color
     color: white
     
-    button.close
-      position:absolute
+    .buttons 
+      position: absolute
       right: 0
       top:0
       margin: .25em .25em 0 0
+      z-index: 105
+
+    button.close, button.pin
       background: transparent
       box-shadow: none
       border:none
       color: white
-      z-index: 105
-      text-shadow: 1px 1px 1px  rgba(0,0,0,.5), 1px 1px 1px  rgba(0,0,0,.5)
+      
+      &:hover
+        color: $color2 
+      
+    button.close
       &:after
         content: '✖'
-      &:hover
-        color: $color2  
+    button.pin 
+      &:after
+        content: '🔓'   
+  
   .dialog-body
     padding: 1em   
 
 .dialog-drag.fixed
   border-color: $color2
+  user-select: auto 
+  
+  button.pin 
+    font-weight: bold
+    &:after
+      content: '🔒'
 
 @keyframes dialog-anim
   0%

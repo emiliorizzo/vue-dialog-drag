@@ -1,9 +1,9 @@
 const texts = [
-  'The sky was cloudless and of a deep dark blue.',
-  'Waves flung themselves at the blue evening.',
-  'All their equipment and instruments are alive.',
-  'A red flair silhouetted the jagged edge of a wing.',
-  'I watched the storm, so beautiful yet terrific.'
+  'Your muffins smell like shit, so do your ideas. Erlich Bachman',
+  'One of you is the least attractive person I’ve ever seen, and I’m not going to say who. Erlich Bachman',
+  'I don\'t trust anyone. It\'s a huge part of my belief system. Gilfoyle',
+  'I spilled coffee on it. I\'m a nerd. Gilfoyle',
+  'I know, in the fable, Pied Piper led all the children into darkness, but now we\'re doing it. Jared'
 ]
 
 const rndText = () => {

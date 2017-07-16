@@ -1,26 +1,55 @@
 <template lang="pug">
   #app      
     .menu-container
+
+      //- Droparea
+      .droparea(ref='droparea' 
+        @drop.stop='drop' 
+        @dragover.prevent='dragEnter' 
+        @dragleave='dragLeave' 
+        @dragend='dragEnd')
+        .over(v-if='isOver')
+          .icon(v-html='icons.download')
+        
+        //- Dropped dialogs
+        small(v-if='!isOver && !droppeds.length') Drop dialog here 
+        
+        //- Dialogs
+        .dropped(v-for='dialog in droppeds' @click='unDrop(dialog.id)')
+          .icon(v-html='icons.dialog')
+          .name {{dialog.name}}
+      small(v-if='droppeds.length') 
+        em Click an icon to restore dialog
+      
+      //- Menu
       .menu
-        h1 Vue Draggable Dialog
+        .title
+          h1 Vue Draggable Dialog
         button.btn(@click='newDialog(style)') new dialog
         .set
           label Dialog Style:  
           select(v-model='style')
-            option(value='') random
-            option(v-for='style in styles' :value='style') {{style}}
-      
-      .git-hub
-        .octicon
+            option(:value='null') random
+            option(v-for='(style,key) in styles' :value='key') {{style.name}}
+    //-Links
+    ul.links
+        li
+          a(href='asas')
+            .icon(v-html='icons.gitHub')
+            span.link GitHub
     
+    //- Console
     .console(v-if='selected')
       p Dialog Selected
       small {{selected}}
+
     
     .dialogs
-      dialog-drag(v-for='dialog,key in dialogs' :class='dialog.style'
+      dialog-drag(v-for='dialog,key in dialogs' 
+        :class='dialog.style.name'
         :key='dialog.id' 
         :id='dialog.id' 
+        :ref='"dialog-" + dialog.id'
         @close='removeDialog' 
         @dragEnd='dialogDragEnd'
         @dragStart='selectDialog'
@@ -30,15 +59,22 @@
         span(slot='title') {{ dialog.name }}  
         p {{dialog.content}}
         small
-          strong Random style: {{dialog.style}}
+          strong Style: {{dialog.style.name}}
           p
-            small double click to enable-disable dialog drag
+            strong options:
+          p  
+            small 
+              em {{dialog.options}}
 </template>
 
 
 <script>
 import DialogDrag from '../vue-dialog-drag.vue'
 import rndText from './randomText.js'
+import ghIcon from '!!raw-loader!../assets/github.svg'
+import browserIcon from '!!raw-loader!../assets/browser.svg'
+import dialogIcon from '!!raw-loader!../assets/dialog.svg'
+import downloadIcon from '!!raw-loader!../assets/download.svg'
 
 export default {
   name: 'example',
@@ -49,53 +85,87 @@ export default {
     return {
       dialogs: [],
       dialogId: 1,
-      styles: ['dialog-1', 'dialog-2', 'dialog-3'],
-      style: '',
+      styles: [
+        { name: 'dialog-1', options: { width: 400 } },
+        { name: 'dialog-2', options: { width: 150, buttonPin: false } },
+        { name: 'dialog-3' }
+      ],
+      style: null,
       selected: null,
-      dialogWidth: 400
+      dialogWidth: 400,
+      isOver: false,
+      droppeds: [],
+      icons: {
+        gitHub: ghIcon,
+        browser: browserIcon,
+        download: downloadIcon,
+        dialog: dialogIcon
+      }
     }
   },
   created () {
-    for (let style of this.styles) {
-      let index = this.newDialog(style) - 1
+    for (let i = 0; i < this.styles.length; i++) {
+      let index = this.newDialog(i) - 1
       this.dialogs[index].options.left = (index * this.dialogWidth) + 50 * index + 1
     }
   },
   methods: {
-    newDialog (style) {
-      if (!style) style = this.randomStyle()
-      return this.dialogs.push(this.dialog(style))
+    drop (event) {
+      this.isOver = false
+      let id = event.dataTransfer.getData('text')
+      let index = this.findDialog(id)
+      if (index !== null) {
+        this.droppeds.push(this.dialogs[index])
+        this.dialogs.splice(index, 1)
+      }
+    },
+    dragEnter (event) {
+      this.isOver = true
+    },
+    dragLeave (event) {
+      this.isOver = false
+    },
+    dragEnd (event) {
+      event.target.classList.remove('over')
+    },
+    unDrop (id) {
+      let index = this.findDialog(id, this.droppeds)
+      if (index !== null) {
+        this.dialogs.push(this.droppeds[index])
+        this.droppeds.splice(index, 1)
+      }
+    },
+    newDialog (sId) {
+      if (sId === null) sId = Math.floor(Math.random() * this.styles.length)
+      return this.dialogs.push(this.dialog(this.styles[sId]))
     },
     removeDialog (id) {
       let index = this.findDialog(id)
       this.dialogs.splice(index, 1)
       if (this.selected && this.selected.id === id) this.selected = null
     },
-    findDialog (id) {
-      let index = this.dialogs.findIndex((val) => {
+    findDialog (id, dialogs) {
+      if (!dialogs) dialogs = this.dialogs
+      let index = dialogs.findIndex((val) => {
         return val.id === id
       })
-      return index
+      return (index > -1) ? index : null
     },
     dialog (style) {
-      let id = this.dialogId
+      let id = String(this.dialogId)
       this.dialogId++
       let name = 'Dialog ' + id
       let content = rndText()
-      let options = {
-        left: 30 * id,
-        top: 30 * id,
-        width: this.dialogWidth
-      }
+      let options = {}
+      if (style.options) options = Object.assign({}, style.options)
+      if (!options.left) options.left = 30 * id
+      if (!options.top) options.top = 30 * id
       return { id, name, content, style, options }
     },
     dialogDragEnd (obj) {
       let index = this.findDialog(obj.id)
       this.$set(this.dialogs[index].options, 'left', obj.left)
       this.$set(this.dialogs[index].options, 'top', obj.top)
-    },
-    randomStyle () {
-      return this.styles[Math.floor(Math.random() * this.styles.length)]
     },
     selectDialog (obj) {
       let index = this.findDialog(obj.id)
@@ -105,11 +175,7 @@ export default {
 }
 </script>
 <style lang="stylus">
-$color = #1aad8d
-$color2 = #e59e0d
-$dark = lightness($color,20%)
-
-$sh = 1px 1px 1px rgba(0,0,0,.5)
+@import '../vars.styl'
   body 
     font-family: 'Asap', sans-serif
     background-color: #e6ede9
@@ -123,29 +189,47 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
     font-size: .8em
     display:block
     margin-bottom: .5em
-  
+  a
+   color: $color
+   &:hover
+    color:$color2
+   &:visited
+    color: $color
+     
   .menu-container
     position:fixed
     bottom: 0
     z-index:50
     margin: 5em
+    width: 25em
+    max-width: 25em
 
   .menu
     border: $dark 1px solid
-    padding: 2em
+    border-top-width: 10px
+    border-bottom-width: 5px
+    padding: 1em 2em
     background-color: $color
     color: white
     box-shadow: $sh
-  
-  .git-hub 
     margin-top: 1em
-    .octicon
+  
+  .links
+    margin: 1em 5em 0 0
+    position: absolute
+    list-style: none
+    top: 0
+    right: 0
+
+  .icon      
+    svg
       padding: 0.1em
       background-color: white
       border-radius: 50%
       display: inline-block
-      path
-        fill: $color
+      width: 3em
+      height: 3em
+      fill: $color
   
   .set 
     margin: 1em
@@ -204,7 +288,53 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
   
   #app
     text-align:center
+    user-select: none
+
+  .droparea, .over
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-wrap: wrap
   
+  .droparea
+    position: relative
+    border: $gray dotted 2px
+    min-height: 10em
+    text-align: center
+    margin-bottom: .5em
+    small
+      color: $gray
+
+  .over
+    background-color: alpha($color2,.5)
+    width: 100%
+    height: 100%
+    position:absolute
+    top: 0
+    left: 0
+    z-index: 105
+    pointer-events: none
+
+  .dropped
+    border: $color dashed 1px
+    margin: .125em
+    background-color: white
+    cursor: pointer
+    &:hover 
+      border-color: $color2
+      .icon svg
+        fill: $color2
+    .name
+      font-size: .6em
+      margin: 0 .5em .25em .5em
+    .icon, .icon svg
+      margin: 0
+      padding: 0
+    .icon svg
+      fill: $color
+      background: transparent
+
+// general dialog style  
   .dialog-drag
     min-width: 10em
     background-color: #e6eee9
@@ -217,9 +347,9 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
   background-color: white
   .dialog-header
     background-color: transparent
-    button.close
+    .buttons button
       color: $color
-    .dialog-title
+    .title
       display:none
 
 // style 1 drag disabled
@@ -234,7 +364,7 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
   .dialog-header
     background-color: $color
     color: white 
-    button.close
+    .buttons button
       color: white
 
 // Dialog style 3
@@ -246,7 +376,7 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
   .dialog-header
     background-color: $color2
     color: white 
-    button.close
+    .buttons button
       color:  lightness($color2,90%)
       text-shadow: none
       &:hover
@@ -255,7 +385,7 @@ $sh = 1px 1px 1px rgba(0,0,0,.5)
 
 // style 3 drag disabled
 .dialog-drag.dialog-3.fixed
-  maring: 2em
+  margin: 2em
   outline: $color 2px dashed
   outline-offset: .25em
 
