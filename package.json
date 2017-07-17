@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.com/emiliorizzo/vue-dialog-drag"
   },
+  "bugs": {
+    "url": "https://github.com/emiliorizzo/vue-dialog-drag/issues"
+  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-preset-vue-app": "^1.2.0",

@@ -98,11 +98,6 @@ export default {
       this.emit('dragEnd')
     },
     touchStart (event) {
-      // let devent = new DragEvent('dragstart', event)
-      // this.$el.dispatchEvent(devent)
-      // let evt = document.createEvent('MouseEvents');
-      // evt.initMouseEvent('dragstart', event)
-      // this.$el.dispatchEvent(evt)
       this.startMove(event.targetTouches[0])
     },
     touchMove (event) {
