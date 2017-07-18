@@ -37,10 +37,12 @@ include css
 
 ```
 Or import source component from: 'vue-dialog-drag/src/vue-dialog-drag.vue'
-And install devDependencies. (stylus and pug, see [package.json](https://github.com/emiliorizzo/vue-dialog-drag/blob/master/package.json))
+And install devDependencies. (stylus and pug) 
+see [package.json](https://github.com/emiliorizzo/vue-dialog-drag/blob/master/package.json))
 
-## Example 
+## Examples 
 
+#### Single file component
 ```html
 <template>
   <div id="app">
@@ -73,6 +75,10 @@ export default {
 <style src="vue-dialog-drag/dist/vue-dialog-drag.css"></style>
 <style src="vue-dialog-drag/dist/drop-area.css"></style>
 ```
+#### html
+ 
+  [See this fiddle](https://jsfiddle.net/emii/g7hojq7m/)
+
 ## Dialog Component
 ### Slots
 
