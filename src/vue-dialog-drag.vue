@@ -8,7 +8,7 @@
     @touchstart.prevent='touchStart'
     @touchmove.stop='touchMove'
     @touchend.stop='touchEnd'
-    @dragend='dragEnd'
+    @dragend.prevent='dragEnd'
     ) 
     .dialog-header(@dragstart.stop='')
       .title
@@ -95,7 +95,7 @@ export default {
     },
     dragEnd (event) {
       this.move(event)
-      this.emit('dragEnd')
+      this.emit('drag-end')
     },
     touchStart (event) {
       this.startMove(event.targetTouches[0])
@@ -122,7 +122,7 @@ export default {
       let x = this.left - event.clientX
       let y = this.top - event.clientY
       this.offset = { x, y }
-      this.emit('dragStart')
+      this.emit('drag-start')
     },
     setOptions (options) {
       if (options) {

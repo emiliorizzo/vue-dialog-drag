@@ -93,9 +93,9 @@ export default {
 
 ### Events
   
- -  **dragStart**: fired on dragstart, emits: { id, left, top }
+ -  **drag-start**: fired on dragstart, emits: { id, left, top }
   - **move**: fired when move dialot, emits: { id, left, top }
-  - **dragEnd**: fired on dragend, emits: { id, left, top }
+  - **drag-end**: fired on dragend, emits: { id, left, top }
   - **close**: fired when close dialogs, emits dialog id
 
 
@@ -109,7 +109,7 @@ export default {
 
 ## Slots
   
-  **Over**: content that show when drag the dialog over drop area.
+  **Over**: content rendered when the dialog is dragged over drop area.
 
 ## Events
   

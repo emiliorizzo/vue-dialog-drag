@@ -45,8 +45,8 @@
         :id='dialog.id' 
         :ref='"dialog-" + dialog.id'
         @close='removeDialog' 
-        @dragEnd='dialogDragEnd'
-        @dragStart='selectDialog'
+        @drag-end='dialogDragEnd'
+        @drag-start='selectDialog'
         @move='dialogDragEnd'
         :options='dialog.options')
         

@@ -2,7 +2,7 @@
 .drop-area(ref='droparea' 
   @drop.stop='drop' 
   @dragover.prevent='dragEnter' 
-  @dragleave='dragLeave')
+  @dragleave.prevent='dragLeave')
   slot
   .over(v-if='isOver')
     slot(name='over')
