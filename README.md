@@ -74,6 +74,10 @@ export default {
 
 <style src="vue-dialog-drag/dist/vue-dialog-drag.css"></style>
 <style src="vue-dialog-drag/dist/drop-area.css"></style>
+
+<!-- optional dialog styles, see example -->
+<style src="vue-dialog-drag/dist/dialog-styles.css"></style>
+
 ```
 #### html
  
@@ -108,6 +112,8 @@ export default {
 ### Css
   
   The main container has class **.dialog-drag**, and .**dialog-drag** **.fixed** when dialog is pinned
+
+  You can import extra dialog styles from dist/dialog-styles.css.
 
   view: [example styles](https://github.com/emiliorizzo/vue-dialog-drag/blob/master/src/example/dialog-styles.styl) 
 

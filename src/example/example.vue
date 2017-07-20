@@ -252,7 +252,7 @@ export default {
       fill: $color
       background: transparent
 
-@import './dialog-styles.styl'
+@import '../dialog-styles.styl'
 
 </style>
 

@@ -1,14 +1,17 @@
-// general dialog style  
+@import 'vars.styl'
+// General dialog style ------------
+  
   .dialog-drag
     min-width: 10em
     background-color: #e6eee9
     box-shadow: 2px 2px 1px rgba(0,0,0,.5)
 
-// Dialog style 1
+// Dialog style 1 ------------
 
 .dialog-1.dialog-drag
   border: $color dashed 2px
   background-color: white
+  box-shadow: $sh
   .dialog-header
     background-color: transparent
     .buttons button
@@ -16,11 +19,11 @@
     .title
       display:none
 
-// style 1 drag disabled
+// style 1, when drag is disabled
 .dialog-drag.dialog-1.fixed
   border: $color solid 2px
 
-// Dialog style 2
+// Dialog style 2 ------------
 
 .dialog-2.dialog-drag
   border-color: $color
@@ -31,7 +34,7 @@
     .buttons button
       color: white
 
-// Dialog style 3
+// Dialog style 3 ------------
 
 .dialog-3.dialog-drag
   border: none
@@ -47,12 +50,13 @@
         color: white
         text-shadow: $sh
 
-// style 3 drag disabled
+// style 3, when drag is disabled
 .dialog-drag.dialog-3.fixed
   margin: 2em
   outline: $color 2px dashed
   outline-offset: .25em
 
+// style 3 animation
 @keyframes dialog-3-anim
   0%
     opacity: 0
