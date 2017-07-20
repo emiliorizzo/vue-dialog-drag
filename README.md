@@ -115,7 +115,7 @@ export default {
 
   You can import extra dialog styles from dist/dialog-styles.css.
 
-  view: [example styles](https://github.com/emiliorizzo/vue-dialog-drag/blob/master/src/example/dialog-styles.styl) 
+  view: [example styles](https://github.com/emiliorizzo/vue-dialog-drag/blob/master/src/dialog-styles.styl) 
 
 ## Drop area component
 
