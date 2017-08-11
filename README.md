@@ -1,5 +1,5 @@
 
-[![GitHub issues](https://img.shields.io/github/issues/emiliorizzo/vue-dialog-drag.svg)](https://github.com/emiliorizzo/vue-dialog-drag/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/emiliorizzo/vue-dialog-drag/master/LICENSE) [![npm](https://img.shields.io/npm/v/vue-d3-network.svg)](https://www.npmjs.com/package/vue-dialog-drag)
+[![GitHub issues](https://img.shields.io/github/issues/emiliorizzo/vue-dialog-drag.svg)](https://github.com/emiliorizzo/vue-dialog-drag/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/emiliorizzo/vue-dialog-drag/master/LICENSE) [![npm](https://img.shields.io/npm/v/vue-dialog-drag.svg)](https://www.npmjs.com/package/vue-dialog-drag)
 
 ## vue-dialog-drag
 
