@@ -107,7 +107,7 @@ export default {
       this.emit('dragEnd')
     },
     emit (eventName, data) {
-      if (!data) data = { id: this.id, left: this.left, top: this.top }
+      if (!data) data = { id: this.id, left: this.left, top: this.top, x: this.left, y: this.top }
       this.$emit(eventName, data)
     },
     move (event) {
@@ -126,6 +126,8 @@ export default {
     },
     setOptions (options) {
       if (options) {
+        if (options.x) options.left = options.x
+        if (options.y) options.top = options.y
         let ops = ['left', 'top', 'width', 'height', 'buttonPin', 'buttonClose'] // available options
         for (let op of ops) {
           if (this.options.hasOwnProperty(op)) {

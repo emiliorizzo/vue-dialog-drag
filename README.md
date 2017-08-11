@@ -1,4 +1,7 @@
-# vue-dialog-drag
+
+[![GitHub issues](https://img.shields.io/github/issues/emiliorizzo/vue-dialog-drag.svg)](https://github.com/emiliorizzo/vue-dialog-drag/issues) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/emiliorizzo/vue-dialog-drag/master/LICENSE) [![npm](https://img.shields.io/npm/v/vue-d3-network.svg)](https://www.npmjs.com/package/vue-dialog-drag)
+
+## vue-dialog-drag
 
 > Simple draggable dialog
 
@@ -95,6 +98,8 @@ export default {
   - options: **Object**
     - left: **Number**
     - top: **Number**
+    - x: *alias of left*
+    - y: *alias of top*
     - width: **Number**
     - height: **Number**
     - buttonPin: **Boolean**
@@ -103,9 +108,9 @@ export default {
 
 ### Events
   
- -  **drag-start**: fired on dragstart, emits: { id, left, top }
-  - **move**: fired when move dialot, emits: { id, left, top }
-  - **drag-end**: fired on dragend, emits: { id, left, top }
+ -  **drag-start**: fired on dragstart, emits: { id, left, top, x, y }
+  - **move**: fired when move dialot, emits: { id, left, top, x, y }
+  - **drag-end**: fired on dragend, emits: { id, left, top, x, y }
   - **close**: fired when close dialogs, emits dialog id
 
 
