@@ -57,6 +57,7 @@ export default {
     this.height = this.$el.clientHeight
     // on dragend, firefox always returns 0 in clientX and clientY
     window.addEventListener('dragover', this.dragOver)
+    this.emit('load')
   },
   beforeDestroy () {
     window.removeEventListener('dragover', this.dragOver)
@@ -107,7 +108,15 @@ export default {
       this.emit('dragEnd')
     },
     emit (eventName, data) {
-      if (!data) data = { id: this.id, left: this.left, top: this.top, x: this.left, y: this.top }
+      data = data || {
+        id: this.id,
+        left: this.left,
+        top: this.top,
+        x: this.left,
+        y: this.top,
+        width: this.width,
+        height: this.height
+      }
       this.$emit(eventName, data)
     },
     move (event) {

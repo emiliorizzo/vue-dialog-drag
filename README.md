@@ -107,12 +107,14 @@ export default {
   - events:
 
 ### Events
-  
- -  **drag-start**: fired on dragstart, emits: { id, left, top, x, y }
-  - **move**: fired when move dialot, emits: { id, left, top, x, y }
-  - **drag-end**: fired on dragend, emits: { id, left, top, x, y }
-  - **close**: fired when close dialogs, emits dialog id
 
+  -  **load**: fired on mounted, emits: props Object
+  -  **drag-start**: fired on dragstart, emits: props Object
+  - **move**: fired when move dialog, emits: props Object
+  - **drag-end**: fired on dragend, emits: props Object
+  - **close**: fired when close dialogs, emits dialog id
+  
+  Props Object = { id, left, top, x, y, width, height }
 
 ### Css
   
