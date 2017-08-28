@@ -46,7 +46,8 @@ export default {
       dragEnabled: true,
       drag: true,
       touch: null,
-      overEvent: null
+      overEvent: null,
+      centered: false
     }
   },
   created () {
@@ -57,7 +58,15 @@ export default {
     this.height = this.$el.clientHeight
     // on dragend, firefox always returns 0 in clientX and clientY
     window.addEventListener('dragover', this.dragOver)
-    this.emit('load')
+    if (this.centered) {
+      let vm = this
+      this.$nextTick(() => {
+        vm.center()
+        vm.emit('load')
+      })
+    } else {
+      this.emit('load')
+    }
   },
   beforeDestroy () {
     window.removeEventListener('dragover', this.dragOver)
@@ -65,6 +74,7 @@ export default {
   watch: {
     options (newValue) {
       this.setOptions(newValue)
+      if (newValue.centered) this.center()
     }
   },
   computed: {
@@ -133,11 +143,19 @@ export default {
       this.offset = { x, y }
       this.emit('drag-start')
     },
+    center (ww, wh) {
+      ww = ww || this.$parent.$el.clientWidth
+      wh = wh || this.$parent.$el.clientHeight
+      let x = (ww / 2) - (this.width / 2)
+      let y = (wh / 2) - (this.height / 2)
+      this.left = x
+      this.top = y
+    },
     setOptions (options) {
       if (options) {
         if (options.x) options.left = options.x
         if (options.y) options.top = options.y
-        let ops = ['left', 'top', 'width', 'height', 'buttonPin', 'buttonClose'] // available options
+        let ops = ['left', 'top', 'width', 'height', 'buttonPin', 'buttonClose', 'centered'] // available options
         for (let op of ops) {
           if (this.options.hasOwnProperty(op)) {
             this.$set(this, op, this.options[op])

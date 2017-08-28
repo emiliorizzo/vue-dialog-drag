@@ -104,6 +104,7 @@ export default {
     - height: **Number**
     - buttonPin: **Boolean**
     - buttonClose:**Boolean**
+    - centered: **Boolean**, center dialog
   - events:
 
 ### Events
