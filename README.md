@@ -9,9 +9,10 @@
 
 Features:
 
-- 'Pin' mode, to lock drag.
-- Touch support (only for drag)
-- Drop area component  
+- Drag & Drop
+- Touch support *(only for drag, not for drop)*
+- Drop area component 
+- 'Pin mode', to lock drag.
 
 ## Installation
 
@@ -100,6 +101,7 @@ export default {
     - top: **Number**
     - x: *alias of left*
     - y: *alias of top*
+    - z: **Number**, *z-index*
     - width: **Number**
     - height: **Number**
     - buttonPin: **Boolean**
@@ -109,13 +111,14 @@ export default {
 
 ### Events
 
-  -  **load**: fired on mounted, emits: props Object
-  -  **drag-start**: fired on dragstart, emits: props Object
-  - **move**: fired when move dialog, emits: props Object
-  - **drag-end**: fired on dragend, emits: props Object
-  - **close**: fired when close dialogs, emits dialog id
+  -  **load**: fired on mounted, *emits: props Object*
+  -  **focus**: fired on click and touch, *emits props Object*
+  -  **drag-start**: fired on dragstart, *emits: props Object*
+  - **move**: fired when move dialog, *emits: props Object*
+  - **drag-end**: fired on dragend, *emits: props Object*
+  - **close**: fired when close dialogs, *emits dialog id*
   
-  Props Object = { id, left, top, x, y, width, height }
+  Props Object = { id, left, top, x, y, z, width, height }
 
 ### Css
   

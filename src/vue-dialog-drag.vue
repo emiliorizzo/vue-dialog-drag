@@ -4,6 +4,7 @@
     :draggable='drag'
     :class='(!drag) ? "fixed":""'
     :style='dialogStyle'
+    @click='focus'
     @dragstart.stop='dragStart'
     @touchstart.prevent='touchStart'
     @touchmove.stop='touchMove'
@@ -35,6 +36,7 @@ export default {
     return {
       width: 0,
       height: 0,
+      zIndex: 0,
       offset: {
         x: 0,
         y: 0
@@ -82,6 +84,7 @@ export default {
       let style = { left: this.left + 'px', top: this.top + 'px' }
       if (this.width) style.width = this.width + 'px'
       if (this.height) style.height = this.height + 'px'
+      if (this.zIndex) style['z-index'] = this.zIndex
       return style
     }
   },
@@ -109,6 +112,7 @@ export default {
       this.emit('drag-end')
     },
     touchStart (event) {
+      this.emit('focus')
       this.startMove(event.targetTouches[0])
     },
     touchMove (event) {
@@ -124,6 +128,7 @@ export default {
         top: this.top,
         x: this.left,
         y: this.top,
+        z: this.zIndex,
         width: this.width,
         height: this.height
       }
@@ -142,6 +147,9 @@ export default {
       let y = this.top - event.clientY
       this.offset = { x, y }
       this.emit('drag-start')
+    },
+    focus (event) {
+      this.emit('focus')
     },
     center (ww, wh) {
       ww = ww || this.$parent.$el.clientWidth

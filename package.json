@@ -1,6 +1,6 @@
 {
   "name": "vue-dialog-drag",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A Vue Draggable Dialog Component",
   "main": "dist/vue-dialog-drag.js",
   "scripts": {
