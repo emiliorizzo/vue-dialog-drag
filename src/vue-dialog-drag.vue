@@ -15,13 +15,18 @@
       .title
         //- Title slot
         slot(name='title')
-          //- render title prop, if title slot has not content
+          //- render title prop, if title slot is empty
           span(v-if='title') {{title}}
           span(v-else) &nbsp
       .buttons
         //- Pin Button
-        button.pin(v-if='buttonPin' @click='setDrag' @touchstart='setDrag' :title='(drag) ? "Disable drag" : "Enable drag"')
-          slot(name="button-pin")
+        button.pin(v-if='buttonPin' @click='setDrag' @touchstart='setDrag')
+          //- Button pin slot
+          slot(name="button-pin" v-if='drag')
+          //- Buton pinned slot
+          slot(name="button-pinned" v-if='!drag')
+             //- Render button-pin slot if button-pinned slot is empty
+             slot(name="button-pin" v-if='!drag')
         //- Close Button
         button.close(v-if='buttonClose' @click='close' @touchstart='close')
           slot(name="button-close")
@@ -52,7 +57,16 @@ export default {
       drag: true,
       touch: null,
       overEvent: null,
-      centered: false
+      centered: false,
+      availableOptions: [
+        'left',
+        'top',
+        'width',
+        'height',
+        'buttonPin',
+        'buttonClose',
+        'centered'
+      ]
     }
   },
   created () {
@@ -102,6 +116,7 @@ export default {
     setDrag () {
       if (this.dragEnabled) {
         this.drag = !this.drag
+        this.emit('pin')
       }
     },
     dragStart (event) {
@@ -132,6 +147,7 @@ export default {
         x: this.left,
         y: this.top,
         z: this.zIndex,
+        pinned: !this.drag,
         width: this.width,
         height: this.height
       }
@@ -166,7 +182,8 @@ export default {
       if (options) {
         if (options.x) options.left = options.x
         if (options.y) options.top = options.y
-        let ops = ['left', 'top', 'width', 'height', 'buttonPin', 'buttonClose', 'centered'] // available options
+        // available options
+        let ops = this.availableOptions
         for (let op of ops) {
           if (this.options.hasOwnProperty(op)) {
             this.$set(this, op, this.options[op])

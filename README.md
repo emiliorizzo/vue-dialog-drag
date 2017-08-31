@@ -92,6 +92,7 @@ export default {
 
   - title: dialog title. If you don't need formatted title, use 'title' prop.  
   - button-pin: content for pin button
+  - button-pinned: content for pin button when dialog is pinned
   - button-close: content for close button
 
 ### Props
@@ -115,12 +116,13 @@ export default {
 
   -  **load**: fired on mounted, *emits: props Object*
   -  **focus**: fired on click and touch, *emits props Object*
+  -  **pin**: fired on pin / unpin dialog, *emits props Object*
   -  **drag-start**: fired on dragstart, *emits: props Object*
   - **move**: fired when move dialog, *emits: props Object*
   - **drag-end**: fired on dragend, *emits: props Object*
   - **close**: fired when close dialogs, *emits dialog id*
   
-  Props Object = { id, left, top, x, y, z, width, height }
+  Props Object = { id, left, top, x, y, z, width, height, pinned }
 
 ### Css
   
