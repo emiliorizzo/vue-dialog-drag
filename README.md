@@ -90,7 +90,9 @@ export default {
 ## Dialog Component
 ### Slots
 
-  - Title: dialog title. If you don't need formatted title, use 'title' prop.  
+  - title: dialog title. If you don't need formatted title, use 'title' prop.  
+  - button-pin: content for pin button
+  - button-close: content for close button
 
 ### Props
 

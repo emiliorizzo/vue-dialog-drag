@@ -15,13 +15,16 @@
       .title
         //- Title slot
         slot(name='title')
-          //- optional title if not slot title
+          //- render title prop, if title slot has not content
           span(v-if='title') {{title}}
           span(v-else) &nbsp
       .buttons
-        //- Pin dialog to copy text
+        //- Pin Button
         button.pin(v-if='buttonPin' @click='setDrag' @touchstart='setDrag' :title='(drag) ? "Disable drag" : "Enable drag"')
+          slot(name="button-pin")
+        //- Close Button
         button.close(v-if='buttonClose' @click='close' @touchstart='close')
+          slot(name="button-close")
     //- default slot
     .dialog-body(@dragstart.stop='')
       slot
