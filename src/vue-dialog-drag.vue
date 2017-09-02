@@ -182,6 +182,7 @@ export default {
       if (options) {
         if (options.x) options.left = options.x
         if (options.y) options.top = options.y
+        this.drag = (this.options.pinned) ? false : this.drag
         // available options
         let ops = this.availableOptions
         for (let op of ops) {

@@ -110,6 +110,7 @@ export default {
     - buttonPin: **Boolean**
     - buttonClose:**Boolean**
     - centered: **Boolean**, center dialog
+    - pinned: **Boolean**, disable/enable drag
   - events:
 
 ### Events
