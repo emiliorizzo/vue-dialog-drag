@@ -99,6 +99,7 @@ export default {
 
   - id: *Unique id for dialog*
   - title: *Dialog title*
+  - eventCb: Function(props Object) 
   - options: **Object**
     - left: **Number**
     - top: **Number**
@@ -111,19 +112,22 @@ export default {
     - buttonClose:**Boolean**
     - centered: **Boolean**, center dialog
     - pinned: **Boolean**, disable/enable drag
-  - events:
+
 
 ### Events
-
-  -  **load**: fired on mounted, *emits: props Object*
-  -  **focus**: fired on click and touch, *emits props Object*
-  -  **pin**: fired on pin / unpin dialog, *emits props Object*
-  -  **drag-start**: fired on dragstart, *emits: props Object*
-  - **move**: fired when move dialog, *emits: props Object*
-  - **drag-end**: fired on dragend, *emits: props Object*
-  - **close**: fired when close dialogs, *emits dialog id*
   
-  Props Object = { id, left, top, x, y, z, width, height, pinned }
+  All event emits an object: { id, left, top, x, y, z, width, height, pinned }
+  You can format it, whith 'eventCb' prop.
+
+  -  **load**: fired on mounted
+  -  **focus**: fired on click and touch 
+  -  **pin**: fired on pin / unpin dialog 
+  -  **drag-start**: fired on dragstart 
+  - **move**: fired when move dialog 
+  - **drag-end**: fired on dragend
+  - **close**: fired when close dialogs
+  
+  
 
 ### Css
   

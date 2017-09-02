@@ -39,7 +39,7 @@
 <script>
 export default {
   name: 'dialog-drag',
-  props: ['id', 'title', 'options'],
+  props: ['id', 'title', 'options', 'eventCb'],
   data () {
     return {
       width: 0,
@@ -111,7 +111,7 @@ export default {
       this.emit('move')
     },
     close () {
-      this.emit('close', this.id)
+      this.emit('close')
     },
     setDrag () {
       if (this.dragEnabled) {
@@ -150,6 +150,14 @@ export default {
         pinned: !this.drag,
         width: this.width,
         height: this.height
+      }
+      if (this.eventCb) {
+        let ef = this.eventCb
+        if (ef && typeof (ef) === 'function') {
+          data = ef(data)
+        } else {
+          console.log('Error: eventCb prop must be a function')
+        }
       }
       this.$emit(eventName, data)
     },
