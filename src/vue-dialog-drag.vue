@@ -114,14 +114,15 @@ export default {
       if (this.width) style.width = this.width + 'px'
       if (this.height) style.height = this.height + 'px'
       if (this.zIndex) style['z-index'] = this.zIndex
+      if (this.drag) style['user-select'] = 'none'
       return style
     }
   },
   methods: {
     dragOver (event) {
       if (this.dropEnabled) {
-      this.overEvent = event
-      this.emit('move')
+        this.overEvent = event
+        this.emit('move')
       }
     },
     mouseOver (event) {
@@ -144,8 +145,8 @@ export default {
     },
     dragEnd (event) {
       if (this.dropEnabled) {
-      this.move(event)
-      this.emit('drag-end')
+        this.move(event)
+        this.emit('drag-end')
       }
     },
     mouseDown (event) {
@@ -209,6 +210,13 @@ export default {
         this.emit('move')
       }
     },
+    clearSelection () {
+      if (document.selection) {
+        document.selection.empty()
+      } else if (window.getSelection) {
+        window.getSelection().removeAllRanges()
+      }
+    },
     startMove (event) {
       let x = this.left - event.clientX
       let y = this.top - event.clientY
@@ -217,6 +225,7 @@ export default {
       this.emit('drag-start')
     },
     focus (event) {
+      if (this.drag) this.clearSelection()
       this.emit('focus')
     },
     center (ww, wh) {
