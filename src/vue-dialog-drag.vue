@@ -1,11 +1,14 @@
 <template lang="pug">
   .dialog-drag(
     :id='id'
-    :draggable='drag'
+    :draggable='drag && dropEnabled'
     :class='(!drag) ? "fixed":""'
     :style='dialogStyle'
     @click='focus'
     @dragstart.stop='dragStart'
+    @mousedown='mouseDown'
+    @mousemove='mouseMove'
+    @mouseup.prevent='mouseUp'
     @touchstart.prevent='touchStart'
     @touchmove.stop='touchMove'
     @touchend.stop='touchEnd'
@@ -58,6 +61,8 @@ export default {
       touch: null,
       overEvent: null,
       centered: false,
+      dropEnabled: true,
+      dragging: false,
       availableOptions: [
         'left',
         'top',
@@ -65,7 +70,8 @@ export default {
         'height',
         'buttonPin',
         'buttonClose',
-        'centered'
+        'centered',
+        'dropEnabled'
       ]
     }
   },
@@ -77,6 +83,9 @@ export default {
     this.height = this.$el.clientHeight
     // on dragend, firefox always returns 0 in clientX and clientY
     window.addEventListener('dragover', this.dragOver)
+    if (!this.dropEnabled) {
+      window.addEventListener('mouseover', this.mouseOver)
+    }
     if (this.centered) {
       let vm = this
       this.$nextTick(() => {
@@ -89,6 +98,9 @@ export default {
   },
   beforeDestroy () {
     window.removeEventListener('dragover', this.dragOver)
+    if (!this.dropEnabled) {
+      window.removeEventListener('mouseover', this.mouseOver)
+    }
   },
   watch: {
     options (newValue) {
@@ -107,8 +119,13 @@ export default {
   },
   methods: {
     dragOver (event) {
+      if (this.dropEnabled) {
       this.overEvent = event
       this.emit('move')
+      }
+    },
+    mouseOver (event) {
+      setTimeout(this.mouseMove(event), 100)
     },
     close () {
       this.emit('close')
@@ -120,14 +137,36 @@ export default {
       }
     },
     dragStart (event) {
-      if (this.drag && this.dragEnabled) {
+      if (this.drag && this.dragEnabled && this.dropEnabled) {
         event.dataTransfer.setData('text', event.target.id)
         this.startMove(event)
       }
     },
     dragEnd (event) {
+      if (this.dropEnabled) {
       this.move(event)
       this.emit('drag-end')
+      }
+    },
+    mouseDown (event) {
+      if (!this.dropEnabled) {
+        if (this.drag) event.preventDefault()
+        this.emit('focus')
+        this.startMove(event)
+      }
+    },
+    mouseMove (event) {
+      if (!this.dropEnabled && this.dragging && this.drag) {
+        event.preventDefault()
+        event.stopPropagation()
+        setTimeout(this.move(event), 100)
+      }
+    },
+    mouseUp (event) {
+      if (!this.dropEnabled) {
+        this.dragging = false
+        this.emit('dragEnd')
+      }
     },
     touchStart (event) {
       this.emit('focus')
@@ -138,6 +177,7 @@ export default {
     },
     touchEnd (event) {
       this.emit('dragEnd')
+      this.dragging = false
     },
     emit (eventName, data) {
       data = data || {
@@ -156,7 +196,7 @@ export default {
         if (ef && typeof (ef) === 'function') {
           data = ef(data)
         } else {
-          console.log('Error: eventCb prop must be a function')
+          console.warn('Error: eventCb prop must be a function')
         }
       }
       this.$emit(eventName, data)
@@ -173,6 +213,7 @@ export default {
       let x = this.left - event.clientX
       let y = this.top - event.clientY
       this.offset = { x, y }
+      this.dragging = true
       this.emit('drag-start')
     },
     focus (event) {

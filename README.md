@@ -112,6 +112,7 @@ export default {
     - buttonClose:**Boolean**
     - centered: **Boolean**, center dialog
     - pinned: **Boolean**, disable/enable drag
+    - dropEnabled: **Boolean**, handle drag with mouse events, instead of drag events 
 
 
 ### Events
