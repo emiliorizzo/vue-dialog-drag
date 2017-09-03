@@ -106,8 +106,8 @@ export default {
     - x: *alias of left*
     - y: *alias of top*
     - z: **Number**, *z-index*
-    - width: **Number**
-    - height: **Number**
+    - width: **Number** *(0 or null to auto)*
+    - height: **Number** *(0 or null to auto)*
     - buttonPin: **Boolean**
     - buttonClose:**Boolean**
     - dragCursor: css cursor to show when drag is enabled

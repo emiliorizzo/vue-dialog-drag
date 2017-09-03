@@ -81,8 +81,6 @@ export default {
     this.setOptions(this.options)
   },
   mounted () {
-    this.width = this.$el.clientWidth
-    this.height = this.$el.clientHeight
     // on dragend, firefox always returns 0 in clientX and clientY
     window.addEventListener('dragover', this.dragOver)
     if (!this.dropEnabled) {
@@ -194,8 +192,8 @@ export default {
         y: this.top,
         z: this.zIndex,
         pinned: !this.drag,
-        width: this.width,
-        height: this.height
+        width: this.$el.clientWidth,
+        height: this.$el.clientHeight
       }
       if (this.eventCb) {
         let ef = this.eventCb
@@ -306,7 +304,7 @@ export default {
         content: '🔓'   
   
   .dialog-body
-    padding: 1em   
+    padding: 1em
 
 .dialog-drag.fixed
   border-color: $color2
