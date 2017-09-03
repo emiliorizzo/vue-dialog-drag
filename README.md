@@ -110,6 +110,7 @@ export default {
     - height: **Number**
     - buttonPin: **Boolean**
     - buttonClose:**Boolean**
+    - dragCursor: css cursor to show when drag is enabled
     - centered: **Boolean**, center dialog
     - pinned: **Boolean**, disable/enable drag
     - dropEnabled: **Boolean**, handle drag with mouse events, instead of drag events 

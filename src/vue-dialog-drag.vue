@@ -62,6 +62,7 @@ export default {
       overEvent: null,
       centered: false,
       dropEnabled: true,
+      dragCursor: 'default',
       dragging: false,
       availableOptions: [
         'left',
@@ -71,7 +72,8 @@ export default {
         'buttonPin',
         'buttonClose',
         'centered',
-        'dropEnabled'
+        'dropEnabled',
+        'dragCursor'
       ]
     }
   },
@@ -114,7 +116,10 @@ export default {
       if (this.width) style.width = this.width + 'px'
       if (this.height) style.height = this.height + 'px'
       if (this.zIndex) style['z-index'] = this.zIndex
-      if (this.drag) style['user-select'] = 'none'
+      if (this.drag) {
+        style['user-select'] = 'none'
+        style.cursor = this.dragCursor
+      }
       return style
     }
   },
