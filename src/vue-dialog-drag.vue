@@ -231,13 +231,16 @@ export default {
       if (this.drag) this.clearSelection()
       this.emit('focus')
     },
-    center (ww, wh) {
+    center () {
+      let ww, wh
+      if (this.centered === 'viewport') {
+        ww = window.innerWidth
+        wh = window.innerHeight
+      }
       ww = ww || this.$parent.$el.clientWidth
       wh = wh || this.$parent.$el.clientHeight
-      let x = (ww / 2) - (this.width / 2)
-      let y = (wh / 2) - (this.height / 2)
-      this.left = x
-      this.top = y
+      this.left = (ww / 2) - (this.$el.clientWidth / 2)
+      this.top = (wh / 2) - (this.$el.clientHeight / 2)
     },
     setOptions (options) {
       if (options) {
