@@ -4,7 +4,6 @@
     :draggable='drag && dropEnabled'
     :class='(!drag) ? "fixed":""'
     :style='dialogStyle'
-    @click='focus'
     @dragstart.stop='dragStart'
     @mousedown='mouseDown'
     @mousemove='mouseMove'
@@ -153,9 +152,9 @@ export default {
       }
     },
     mouseDown (event) {
+      this.emit('focus')
       if (!this.dropEnabled) {
         if (this.drag) event.preventDefault()
-        this.emit('focus')
         this.startMove(event)
       }
     },
