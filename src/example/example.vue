@@ -83,7 +83,7 @@ export default {
       dialogId: 1,
       styles: [
         { name: 'dialog-1', options: { width: 400 } },
-        { name: 'dialog-2', options: { width: 150, dropEnabled: false, buttonPin: false } },
+        { name: 'dialog-2', options: { width: 150, buttonPin: false } },
         { name: 'dialog-3' }
       ],
       style: null,
