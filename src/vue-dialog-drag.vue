@@ -68,7 +68,8 @@ export default {
         'buttonClose',
         'centered',
         'dropEnabled',
-        'dragCursor'
+        'dragCursor',
+        'zIndex'
       ]
     }
   },
@@ -115,7 +116,7 @@ export default {
       let style = { left: this.left + 'px', top: this.top + 'px' }
       if (this.width) style.width = this.width + 'px'
       if (this.height) style.height = this.height + 'px'
-      if (this.zIndex) style['z-index'] = this.zIndex
+      if (this.zIndex) style.zIndex = this.zIndex
       if (this.drag) {
         style['user-select'] = 'none'
         style.cursor = this.dragCursor
