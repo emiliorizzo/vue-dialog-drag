@@ -80,14 +80,12 @@ export default {
     this.setOptions(this.options)
   },
   mounted () {
-    // on dragend, firefox always returns 0 in clientX and clientY
     if (this.dropEnabled) {
       this.$el.addEventListener('dragstart', this.dragStart)
       this.$el.addEventListener('dragend', this.dragEnd)
       window.addEventListener('dragover', this.dragOver)
     } else {
-      // this.$el.addEventListener('mouseout', this.mouseOut)
-      document.addEventListener('mousemove', this.mouseMove)
+      document.addEventListener('mousemove', this.mouseMove, { passive: true })
       document.addEventListener('mouseup', this.mouseUp)
     }
     if (this.centered) {
@@ -174,7 +172,7 @@ export default {
       }
     },
     mouseMove (event) {
-      event.preventDefault()
+      // event.preventDefault()
       if (!this.dropEnabled && this.dragging && this.drag) {
         // event.stopPropagation()
         setTimeout(this.move(event), 50)
