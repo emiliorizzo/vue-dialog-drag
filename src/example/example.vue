@@ -83,7 +83,7 @@ export default {
       dialogId: 1,
       styles: [
         { name: 'dialog-1', options: { width: 400 } },
-        { name: 'dialog-2', options: { width: 150, buttonPin: false } },
+        { name: 'dialog-2', options: { width: 150, dropEnabled: false, buttonPin: false } },
         { name: 'dialog-3' }
       ],
       style: null,
@@ -124,7 +124,8 @@ export default {
       if (sId === null) sId = Math.floor(Math.random() * this.styles.length)
       return this.dialogs.push(this.dialog(this.styles[sId]))
     },
-    removeDialog (id) {
+    removeDialog (dialog) {
+      let id = dialog.id
       let index = this.findDialog(id)
       this.dialogs.splice(index, 1)
       if (this.selected && this.selected.id === id) this.selected = null
