@@ -59,6 +59,9 @@ export default {
       dropEnabled: true,
       dragCursor: 'default',
       dragging: false,
+      clickButton: false,
+      pX: 0,
+      pY: 0,
       availableOptions: [
         'left',
         'top',
@@ -140,6 +143,7 @@ export default {
       setTimeout(this.mouseMove(event), 50)
     },
     close () {
+      this.clickButton = 'close'
       this.emit('close')
     },
     setDrag () {
@@ -163,7 +167,7 @@ export default {
       }
     },
     mouseDown (event) {
-      if (!this.dragging) this.emit('focus')
+      if (!this.dragging) this.focus()
       if (!this.dropEnabled) {
         if (this.drag) event.preventDefault()
         this.startMove(event)
@@ -179,7 +183,7 @@ export default {
     mouseUp (event) {
       event.preventDefault()
       if (!this.dropEnabled) {
-        this.dragging = false
+        this.stopMove()
         this.emit('dragEnd')
       }
     },
@@ -192,7 +196,12 @@ export default {
     },
     touchEnd (event) {
       this.emit('dragEnd')
+      this.stopMove()
+    },
+    stopMove () {
       this.dragging = false
+      this.pX = 0
+      this.pY = 0
     },
     emit (eventName, data) {
       data = data || {
@@ -219,9 +228,14 @@ export default {
     move (event) {
       if (this.drag && this.dragEnabled) {
         if (event.clientX === 0) event = this.overEvent // for firefox
-        this.left = event.clientX + this.offset.x
-        this.top = event.clientY + this.offset.y
-        this.emit('move')
+        if (event && event.clientX && event.clientY) {
+          let x = event.clientX
+          let y = event.clientY
+          this.left = (x + this.offset.x)
+          this.top = (y + this.offset.y)
+          this.dragging++
+          this.emit('move')
+        }
       }
     },
     clearSelection () {
@@ -235,12 +249,15 @@ export default {
       let x = this.left - event.clientX
       let y = this.top - event.clientY
       this.offset = { x, y }
-      this.dragging = true
+      this.dragging = 1
       this.emit('drag-start')
     },
     focus (event) {
       if (this.drag) this.clearSelection()
-      this.emit('focus')
+      let vm = this
+      setTimeout(() => {
+        if (!vm.clickButton) vm.emit('focus')
+      }, 200)
     },
     center () {
       let ww, wh
@@ -275,6 +292,7 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus">
 @import 'vars.styl'
 
