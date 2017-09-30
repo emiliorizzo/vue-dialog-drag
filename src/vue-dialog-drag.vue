@@ -87,8 +87,8 @@ export default {
       window.addEventListener('dragover', this.dragOver)
     } else {
       // this.$el.addEventListener('mouseout', this.mouseOut)
-      window.addEventListener('mousemove', this.mouseMove)
-      window.addEventListener('mouseup', this.mouseUp)
+      document.addEventListener('mousemove', this.mouseMove)
+      document.addEventListener('mouseup', this.mouseUp)
     }
     if (this.centered) {
       let vm = this
@@ -104,8 +104,8 @@ export default {
     if (this.dropEnabled) {
       window.removeEventListener('dragover', this.dragOver)
     } else {
-      window.removeEventListener('mousemove', this.mouseMove)
-      window.removeEventListener('mouseup', this.mouseUp)
+      document.removeEventListener('mousemove', this.mouseMove)
+      document.removeEventListener('mouseup', this.mouseUp)
     }
   },
   watch: {
