@@ -1,17 +1,13 @@
 <template lang="pug">
   .dialog-drag(
     :id='id'
-    :draggable='drag && dropEnabled'
+    :draggable='drag'
     :class='(!drag) ? "fixed":""'
     :style='dialogStyle'
-    @dragstart.stop='dragStart'
     @mousedown='mouseDown'
-    @mousemove='mouseMove'
-    @mouseup.prevent='mouseUp'
     @touchstart.prevent='touchStart'
-    @touchmove.stop='touchMove'
+    @touchmove.passive='touchMove'
     @touchend.stop='touchEnd'
-    @dragend.prevent='dragEnd'
     ) 
     .dialog-header(@dragstart.stop='')
       .title
@@ -30,7 +26,7 @@
              //- Render button-pin slot if button-pinned slot is empty
              slot(name="button-pin" v-if='!drag')
         //- Close Button
-        button.close(v-if='buttonClose' @click='close' @touchstart='close')
+        button.close(v-if='buttonClose' @click.stop='close' @touchstart.passive='close')
           slot(name="button-close")
     //- default slot
     .dialog-body(@dragstart.stop='')
@@ -81,9 +77,14 @@ export default {
   },
   mounted () {
     // on dragend, firefox always returns 0 in clientX and clientY
-    window.addEventListener('dragover', this.dragOver)
-    if (!this.dropEnabled) {
-      window.addEventListener('mouseover', this.mouseOver)
+    if (this.dropEnabled) {
+      window.addEventListener('dragover', this.dragOver)
+      this.$el.addEventListener('dragstart', this.dragStart)
+      this.$el.addEventListener('dragend', this.dragEnd)
+    } else {
+      // this.$el.addEventListener('mouseout', this.mouseOut)
+      document.addEventListener('mousemove', this.mouseMove, true)
+      document.addEventListener('mouseup', this.mouseUp, true)
     }
     if (this.centered) {
       let vm = this
@@ -96,9 +97,11 @@ export default {
     }
   },
   beforeDestroy () {
-    window.removeEventListener('dragover', this.dragOver)
-    if (!this.dropEnabled) {
-      window.removeEventListener('mouseover', this.mouseOver)
+    if (this.dropEnabled) {
+      window.removeEventListener('dragover', this.dragOver)
+    } else {
+      document.removeEventListener('mousemove', this.mouseMove)
+      document.removeEventListener('mouseup', this.mouseUp)
     }
   },
   watch: {
@@ -121,6 +124,11 @@ export default {
     }
   },
   methods: {
+    mouseOut (event) {
+      if (!this.dragEnabled && this.dragging) {
+        this.move(event)
+      }
+    },
     dragOver (event) {
       if (this.dropEnabled) {
         this.overEvent = event
@@ -128,7 +136,7 @@ export default {
       }
     },
     mouseOver (event) {
-      setTimeout(this.mouseMove(event), 100)
+      setTimeout(this.mouseMove(event), 50)
     },
     close () {
       this.emit('close')
@@ -140,32 +148,35 @@ export default {
       }
     },
     dragStart (event) {
+      event.stopPropagation()
       if (this.drag && this.dragEnabled && this.dropEnabled) {
         event.dataTransfer.setData('text', event.target.id)
         this.startMove(event)
       }
     },
     dragEnd (event) {
+      event.preventDefault()
       if (this.dropEnabled) {
         this.move(event)
         this.emit('drag-end')
       }
     },
     mouseDown (event) {
-      this.emit('focus')
+      if (!this.dragging) this.emit('focus')
       if (!this.dropEnabled) {
         if (this.drag) event.preventDefault()
         this.startMove(event)
       }
     },
     mouseMove (event) {
+      event.preventDefault()
       if (!this.dropEnabled && this.dragging && this.drag) {
-        event.preventDefault()
-        event.stopPropagation()
-        setTimeout(this.move(event), 100)
+        // event.stopPropagation()
+        setTimeout(this.move(event), 50)
       }
     },
     mouseUp (event) {
+      event.preventDefault()
       if (!this.dropEnabled) {
         this.dragging = false
         this.emit('dragEnd')
@@ -207,8 +218,8 @@ export default {
     move (event) {
       if (this.drag && this.dragEnabled) {
         if (event.clientX === 0) event = this.overEvent // for firefox
-        this.left = parseInt(event.clientX + this.offset.x)
-        this.top = parseInt(event.clientY + this.offset.y)
+        this.left = event.clientX + this.offset.x
+        this.top = event.clientY + this.offset.y
         this.emit('move')
       }
     },
@@ -232,9 +243,14 @@ export default {
     },
     center () {
       let ww, wh
-      if (this.centered === 'viewport') {
+      if (this.centered === 'window') {
         ww = window.innerWidth
         wh = window.innerHeight
+      }
+      if (this.centered === 'viewport') {
+        let body = document.body
+        ww = body.clientWidth + body.scrollLeft
+        wh = body.clientHeight + body.scrollTop
       }
       ww = ww || this.$parent.$el.clientWidth
       wh = wh || this.$parent.$el.clientHeight
