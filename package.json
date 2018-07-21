@@ -1,17 +1,17 @@
 {
   "name": "vue-dialog-drag",
-  "version": "0.1.27",
+  "version": "0.1.28",
   "description": "A Vue Draggable Dialog Component",
   "main": "dist/vue-dialog-drag.umd.js",
   "scripts": {
     "example": "vue-cli-service build --dest example",
     "dev": "vue-cli-service serve",
     "build": "npm run build-dialog && npm run build-drop-area && npm run styles && npm run clean-dist",
-    "build-dialog":"vue-cli-service build --target lib --name vue-dialog-drag src/components/vue-dialog-drag.vue",
-    "build-drop-area":"vue-cli-service build --no-clean --target lib --name vue-drop-area src/components/drop-area.vue",
+    "build-dialog": "vue-cli-service build --target lib --name vue-dialog-drag src/components/vue-dialog-drag.vue",
+    "build-drop-area": "vue-cli-service build --no-clean --target lib --name vue-drop-area src/components/drop-area.vue",
     "lint": "vue-cli-service lint",
-    "styles":"./node_modules/.bin/stylus --compress -I src/lib/styl < ./src/lib/styl/dialog-styles.styl > ./dist/dialog-styles.css",
-    "clean-dist":"rm dist/demo.html"
+    "styles": "./node_modules/.bin/stylus --compress -I src/lib/styl < ./src/lib/styl/dialog-styles.styl > ./dist/dialog-styles.css",
+    "clean-dist": "rm dist/demo.html"
   },
   "author": "emi",
   "license": "MIT",
