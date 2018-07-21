@@ -1,12 +1,12 @@
 <template lang="pug">
-.drop-area(ref='droparea' 
-  @drop.stop='drop' 
-  @dragover.prevent='dragEnter' 
+.drop-area(ref='droparea'
+  @drop.stop='drop'
+  @dragover.prevent='dragEnter'
   @dragleave.prevent='dragLeave')
   slot
   .over(v-if='isOver')
     slot(name='over')
-  
+
 </template>
 <script>
 export default {
@@ -32,13 +32,13 @@ export default {
 }
 </script>
 <style lang="stylus">
-@import './vars.styl'
+@import '../lib/styl/vars.styl'
   .drop-area, .over
     display: flex
     justify-content: center
     align-items: center
     flex-wrap: wrap
-  
+
   .drop-area
     position: relative
     border: $gray dotted 2px
@@ -63,7 +63,7 @@ export default {
     margin: .125em
     background-color: white
     cursor: pointer
-    &:hover 
+    &:hover
       border-color: $color2
       .icon svg
         fill: $color2
@@ -77,4 +77,3 @@ export default {
       fill: $color
       background: transparent
 </style>
-

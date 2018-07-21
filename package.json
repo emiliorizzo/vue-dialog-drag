@@ -2,13 +2,16 @@
   "name": "vue-dialog-drag",
   "version": "0.1.27",
   "description": "A Vue Draggable Dialog Component",
-  "main": "dist/vue-dialog-drag.js",
+  "main": "dist/vue-dialog-drag.umd.js",
   "scripts": {
-    "build": "npm run lint && ./build.sh",
-    "example": "vue build src/example/example.vue --dist example --prod -c config.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ext .js,.vue src",
-    "dev": "vue build src/example/example.vue -c config.js"
+    "example": "vue-cli-service build --dest example",
+    "dev": "vue-cli-service serve",
+    "build": "npm run build-dialog && npm run build-drop-area && npm run styles && npm run clean-dist",
+    "build-dialog":"vue-cli-service build --target lib --name vue-dialog-drag src/components/vue-dialog-drag.vue",
+    "build-drop-area":"vue-cli-service build --no-clean --target lib --name vue-drop-area src/components/drop-area.vue",
+    "lint": "vue-cli-service lint",
+    "styles":"./node_modules/.bin/stylus --compress -I src/lib/styl < ./src/lib/styl/dialog-styles.styl > ./dist/dialog-styles.css",
+    "clean-dist":"rm dist/demo.html"
   },
   "author": "emi",
   "license": "MIT",
@@ -20,21 +23,16 @@
     "url": "https://github.com/emiliorizzo/vue-dialog-drag/issues"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "babel-preset-vue-app": "^1.2.0",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-friendly-formatter": "^2.0.7",
-    "eslint-loader": "^1.7.1",
-    "eslint-plugin-env": "0.0.3",
-    "eslint-plugin-html": "^2.0.0",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "pug": "^2.0.0-rc.2",
+    "@vue/cli-plugin-babel": "^3.0.0-rc.5",
+    "@vue/cli-plugin-eslint": "^3.0.0-rc.5",
+    "@vue/cli-service": "^3.0.0-rc.5",
+    "@vue/eslint-config-standard": "^3.0.0-rc.5",
+    "pug": "^2.0.3",
+    "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
     "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1",
-    "vue-cli": "^2.8.2",
-    "webpack": "^3.2.0"
+    "stylus-loader": "^3.0.2",
+    "vue": "^2.5.16",
+    "vue-template-compiler": "^2.5.16"
   }
 }

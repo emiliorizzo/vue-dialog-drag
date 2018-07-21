@@ -8,7 +8,7 @@
     @touchstart.prevent='touchStart'
     @touchmove.passive='touchMove'
     @touchend.stop='touchEnd'
-    ) 
+    )
     .dialog-header(@dragstart.stop='')
       .title
         //- Title slot
@@ -217,8 +217,6 @@ export default {
         let ef = this.eventCb
         if (ef && typeof (ef) === 'function') {
           data = ef(data)
-        } else {
-          console.warn('Error: eventCb prop must be a function')
         }
       }
       this.$emit(eventName, data)
@@ -292,71 +290,74 @@ export default {
 </script>
 
 <style lang="stylus">
-@import 'vars.styl'
+  @import '../lib/styl/vars.styl'
 
-.dialog-drag
-  z-index: 101
-  width: auto
-  position: absolute
-  border: $color solid 2px
-  background-color: white
-  box-shadow: $sh
-  height: auto
-  animation-duration: 0.2s
-  animation-name: dialog-anim
-  animation-timing-function: ease-in
-    
-  .dialog-header
-    position:relative
-    text-align: left
-    padding: .25em 3em .25em 1em
-    width: auto
-    font-size: 0.9em
-    background-color: $color
-    color: white
-    
-    .buttons 
-      position: absolute
-      right: 0
-      top:0
-      margin: .25em .25em 0 0
-      z-index: 105
+  .dialog-drag
+    z-index 101
+    width auto
+    position absolute
+    border $color solid 2px
+    background-color white
+    box-shadow $sh
+    height auto
+    animation-duration 0.2s
+    animation-name dialog-anim
+    animation-timing-function ease-in
 
-    button.close, button.pin
-      background: transparent
-      box-shadow: none
-      border:none
-      color: white
-      
-      &:hover
-        color: $color2 
-      
-    button.close
+    .dialog-header
+      position relative
+      text-align left
+      padding 0.25em 3em 0.25em 1em
+      width auto
+      font-size 0.9em
+      background-color $color
+      color white
+
+      .buttons
+        position absolute
+        right 0
+        top 0
+        margin 0.25em 0.25em 0 0
+        z-index 105
+
+      button.close, button.pin
+        background transparent
+        box-shadow none
+        border none
+        color white
+
+        &:hover
+          color $color2
+
+      button.close
+        &:after
+          content '✖'
+
+      button.pin
+        &:after
+          content '🔓'
+
+    .dialog-body
+      padding 1em
+
+  .dialog-drag.fixed
+    border-color $color2
+    user-select auto
+
+    button.pin
+      font-weight bold
+
       &:after
-        content: '✖'
-    button.pin 
-      &:after
-        content: '🔓'   
-  
-  .dialog-body
-    padding: 1em
+        content '🔒'
 
-.dialog-drag.fixed
-  border-color: $color2
-  user-select: auto 
-  
-  button.pin 
-    font-weight: bold
-    &:after
-      content: '🔒'
+  @keyframes dialog-anim
+    0%
+      opacity 0
+      transform scaleX(0.1)
 
-@keyframes dialog-anim
-  0%
-    opacity: 0
-    transform: scaleX(.1) 
-  50%
-    transform:   rotate(1deg)
-  100%
-    opacity: 1  
+    50%
+      transform rotate(1deg)
 
+    100%
+      opacity 1
 </style>
