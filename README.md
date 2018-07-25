@@ -11,7 +11,7 @@ Features:
 
 - Drag & Drop
 - Touch support *(only for drag, not for drop)*
-- Drop area component 
+- Drop area component
 - 'Pin mode', to lock drag.
 
 ## Installation
@@ -97,24 +97,24 @@ export default {
 
 ### Props
 
-  - id: *Unique id for dialog*
-  - title: *Dialog title*
-  - eventCb: Function(props Object) 
-  - options: **Object**
-    - left: **Number**
-    - top: **Number**
-    - zIndex:**Number**
-    - x: *alias of left*
-    - y: *alias of top*
-    - z: *alias of zIndex*
-    - width: **Number** *(0 or null to auto)*
-    - height: **Number** *(0 or null to auto)*
-    - buttonPin: **Boolean**
-    - buttonClose:**Boolean**
-    - dragCursor: css cursor to show when drag is enabled
-    - centered: "viewport" | "parent" , center dialog to viewport or parent element
-    - pinned: **Boolean**, disable/enable drag
-    - dropEnabled: **Boolean**, handle drag with mouse events, instead of drag events 
+- id: *Unique id for dialog*
+- title: *Dialog title*
+- eventCb: Function(props Object)
+- options: **Object**
+  - left: **Number**
+  - top: **Number**
+  - zIndex: **Number**
+  - x: *alias of left*
+  - y: *alias of top*
+  - z: *alias of zIndex*
+  - width: **Number** *(0 or null to auto)*
+  - height: **Number** *(0 or null to auto)*
+  - buttonPin: **Boolean**
+  - buttonClose:**Boolean**
+  - dragCursor: css cursor to show when drag is enabled
+  - centered: "viewport" | "parent" , center dialog to viewport or parent element
+  - pinned: **Boolean**, disable/enable drag
+  - dropEnabled: **Boolean**, handle drag with mouse events, instead of drag events 
 
 
 ### Events
@@ -122,15 +122,13 @@ export default {
   All event emits an object: { id, left, top, x, y, z, width, height, pinned }
   You can format it, whith 'eventCb' prop.
 
-  -  **load**: fired on mounted
-  -  **focus**: fired on click and touch 
-  -  **pin**: fired on pin / unpin dialog 
-  -  **drag-start**: fired on dragstart 
-  - **move**: fired when move dialog 
-  - **drag-end**: fired on dragend
-  - **close**: fired when close dialogs
-  
-  
+- **load**: fired on mounted
+- **focus**: fired on click and touch
+- **pin**: fired on pin / unpin dialog
+- **drag-start**: fired on dragstart
+- **move**: fired when move dialog
+- **drag-end**: fired on dragend
+- **close**: fired when close dialogs
 
 ### Css
   
@@ -149,4 +147,3 @@ export default {
 ## Events
   
   **drop**: fired when drop the dialog, emits dialog id.
-
