@@ -275,6 +275,7 @@ export default {
       if (options) {
         if (options.x) options.left = options.x
         if (options.y) options.top = options.y
+        if (options.z) options.zIndex = options.z
         this.drag = (this.options.pinned) ? false : this.drag
         // available options
         let ops = this.availableOptions

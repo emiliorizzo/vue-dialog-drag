@@ -103,9 +103,10 @@ export default {
   - options: **Object**
     - left: **Number**
     - top: **Number**
+    - zIndex:**Number**
     - x: *alias of left*
     - y: *alias of top*
-    - z: **Number**, *z-index*
+    - z: *alias of zIndex*
     - width: **Number** *(0 or null to auto)*
     - height: **Number** *(0 or null to auto)*
     - buttonPin: **Boolean**
