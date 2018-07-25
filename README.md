@@ -105,7 +105,7 @@ export default {
     - top: **Number**
     - x: *alias of left*
     - y: *alias of top*
-    - z: **Number**, *z-index*
+    - zIndex: **Number**, *z-index*
     - width: **Number** *(0 or null to auto)*
     - height: **Number** *(0 or null to auto)*
     - buttonPin: **Boolean**
