@@ -114,12 +114,12 @@ __webpack_require__.r(__webpack_exports__);
 // EXTERNAL MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 var setPublicPath = __webpack_require__("HrLf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"/var/share/vue-dialog-drag/node_modules/.cache/vue-loader","cacheIdentifier":"847cbeee-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/pug-plain-loader!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/vue-dialog-drag.vue?vue&type=template&id=28c5bfec&lang=pug&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"/var/share/vue-dialog-drag/node_modules/.cache/vue-loader","cacheIdentifier":"847cbeee-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/pug-plain-loader!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/components/vue-dialog-drag.vue?vue&type=template&id=1c049c8d&lang=pug&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"dialog-drag",class:(!_vm.drag) ? "fixed":"",style:(_vm.dialogStyle),attrs:{"id":_vm.id,"draggable":_vm.drag},on:{"mousedown":_vm.mouseDown,"touchstart":function($event){$event.preventDefault();return _vm.touchStart($event)},"&touchmove":function($event){return _vm.touchMove($event)},"touchend":function($event){$event.stopPropagation();return _vm.touchEnd($event)}}},[_c('div',{staticClass:"dialog-header",on:{"dragstart":function($event){$event.stopPropagation();}}},[_c('div',{staticClass:"title"},[_vm._t("title",[(_vm.title)?_c('span',[_vm._v(_vm._s(_vm.title))]):_c('span',[_vm._v(" ")])])],2),_c('div',{staticClass:"buttons"},[(_vm.buttonPin)?_c('button',{staticClass:"pin",on:{"click":_vm.setDrag,"touchstart":_vm.setDrag}},[(_vm.drag)?_vm._t("button-pin"):_vm._e(),(!_vm.drag)?_vm._t("button-pinned",[(!_vm.drag)?_vm._t("button-pin"):_vm._e()]):_vm._e()],2):_vm._e(),(_vm.buttonClose)?_c('button',{staticClass:"close",on:{"click":function($event){$event.stopPropagation();return _vm.close($event)},"&touchstart":function($event){return _vm.close($event)}}},[_vm._t("button-close")],2):_vm._e()])]),_c('div',{staticClass:"dialog-body",on:{"dragstart":function($event){$event.stopPropagation();}}},[_vm._t("default",[_c('div',{staticClass:"blank-body"})])],2)])}
 var staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./src/components/vue-dialog-drag.vue?vue&type=template&id=28c5bfec&lang=pug&
+// CONCATENATED MODULE: ./src/components/vue-dialog-drag.vue?vue&type=template&id=1c049c8d&lang=pug&
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es7.symbol.async-iterator.js
 var es7_symbol_async_iterator = __webpack_require__("rE2o");
@@ -421,6 +421,7 @@ var web_dom_iterable = __webpack_require__("rGqo");
       if (options) {
         if (options.x) options.left = options.x;
         if (options.y) options.top = options.y;
+        if (options.z) options.zIndex = options.z;
         this.drag = this.options.pinned ? false : this.drag; // available options
 
         var ops = this.availableOptions;
