@@ -77,7 +77,7 @@ export default {
 </script>
 
 <style src="vue-dialog-drag/dist/vue-dialog-drag.css"></style>
-<style src="vue-dialog-drag/dist/drop-area.css"></style>
+<style src="vue-dialog-drag/dist/vue-drop-area.css"></style>
 
 <!-- optional dialog styles, see example -->
 <style src="vue-dialog-drag/dist/dialog-styles.css"></style>
