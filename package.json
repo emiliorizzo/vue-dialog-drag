@@ -23,7 +23,7 @@
     "core-js": "^3.6.5",
     "eslint": "^7.2.0",
     "eslint-plugin-vue": "^6.2.2",
-    "pug": "^2.0.3",
+    "pug": "^3.0.1",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
     "stylus": "^0.54.5",
